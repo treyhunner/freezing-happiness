@@ -1,6 +1,11 @@
 'use strict';
 
 /**
+ * Polyfills
+ */
+require('string.prototype.startswith');
+
+/**
  * Module dependencies.
  */
 var glob = require('glob');
