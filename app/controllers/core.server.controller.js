@@ -24,12 +24,8 @@ exports.index = function(req, res) {
 exports.search = function(req, res) {
 	var query = req.query.q;
 	async.parallel([
-		function (callback) {
-			MagnatuneArtist.find({artist: query}, callback);
-		},
-		function (callback) {
-			JamendoArtist.find({name: query}, callback);
-		}
+		async.apply(_.bindKey(MagnatuneArtist, 'find'), {artist: query}),
+		async.apply(_.bindKey(JamendoArtist, 'find'), {name: query}),
 	],
 	function (err, results) {
 		if (err) {
