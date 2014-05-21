@@ -24,8 +24,19 @@ var ArtistSchema = new Schema({
 	state: String,
 	country: String,
 	bio: String,
-});
+}, {toJSON: {virtuals: true}});
+
 
 ArtistSchema.path('artist').index();
+
+ArtistSchema.virtual('name').get(function () {
+	return this.artist;
+});
+ArtistSchema.virtual('url').get(function () {
+	return 'http://magnatune.com/artists/' + this.homepage;
+});
+ArtistSchema.virtual('service').get(function () {
+	return 'Magnatune';
+});
 
 mongoose.model('MagnatuneArtist', ArtistSchema);
