@@ -1,5 +1,9 @@
 'use strict';
 
+function escapeRegExp(string){
+	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+}
+
 /**
  * Module dependencies.
  */
@@ -13,7 +17,7 @@ var mongoose = require('mongoose'),
  * Search for artist by name
  */
 exports.search = function(req, res) {
-	var query = req.query.q;
+	var query = new RegExp(escapeRegExp(req.query.q), 'i');
 	async.parallel([
 		async.apply(_.bindKey(MagnatuneArtist, 'find'), {artist: query}),
 		async.apply(_.bindKey(JamendoArtist, 'find'), {name: query}),
